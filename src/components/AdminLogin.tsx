@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Lock, Eye, EyeOff } from 'lucide-react'
+import { Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react'
 
 interface AdminLoginProps {
   onLogin: (email: string, password: string) => Promise<{ error: any }>
+  onGoBack: () => void
 }
 
-export function AdminLogin({ onLogin }: AdminLoginProps) {
+export function AdminLogin({ onLogin, onGoBack }: AdminLoginProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -29,6 +30,14 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-8">
+        <button
+          onClick={onGoBack}
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-800 mb-6 transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          <span className="text-sm font-medium">Go Back</span>
+        </button>
+
         <div className="text-center mb-8">
           <div className="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mx-auto mb-4">
             <Lock className="w-8 h-8 text-blue-600" />

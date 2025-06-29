@@ -2,17 +2,19 @@ import React, { useState, useMemo } from 'react'
 import { Plus, Settings, LogOut, Users, RefreshCw } from 'lucide-react'
 import { useAuth } from './hooks/useAuth'
 import { useParticipants } from './hooks/useParticipants'
-import { ParticipantCard } from './components/ParticipantCard'
+import { useScrollToTop } from './hooks/useScrollToTop'
+import { ParticipantCardResponsive } from './components/ParticipantCardResponsive'
 import { SearchBar } from './components/SearchBar'
 import { StatsCard } from './components/StatsCard'
 import { AddParticipantModal } from './components/AddParticipantModal'
 import { AdminLogin } from './components/AdminLogin'
+import { BackToTop } from './components/BackToTop'
 import { Participant } from './types/participant'
 
 // Force new deployment - updated at ${new Date().toISOString()}
 
 function App() {
-  const { user, loading: authLoading, signIn, signOut, isAdmin } = useAuth()
+  const { loading: authLoading, signIn, signOut, isAdmin } = useAuth()
   const { 
     participants, 
     loading: participantsLoading, 
@@ -22,6 +24,7 @@ function App() {
     deleteParticipant,
     refetch
   } = useParticipants()
+  const { showScrollTop, scrollToTop } = useScrollToTop()
 
   const [searchQuery, setSearchQuery] = useState('')
   const [showAddModal, setShowAddModal] = useState(false)
@@ -97,7 +100,7 @@ function App() {
 
   // Show admin login if trying to access admin features
   if (showAdminPanel && !isAdmin) {
-    return <AdminLogin onLogin={signIn} />
+    return <AdminLogin onLogin={signIn} onGoBack={() => setShowAdminPanel(false)} />
   }
 
   return (
@@ -205,7 +208,7 @@ function App() {
         ) : (
           <div className="space-y-4">
             {filteredParticipants.map((participant) => (
-              <ParticipantCard
+              <ParticipantCardResponsive
                 key={participant.id}
                 participant={participant}
                 isAdmin={isAdmin}
@@ -234,6 +237,9 @@ function App() {
         onSave={handleSaveParticipant}
         editingParticipant={editingParticipant}
       />
+
+      {/* Back to Top Button */}
+      <BackToTop show={showScrollTop} onClick={scrollToTop} />
     </div>
   )
 }
