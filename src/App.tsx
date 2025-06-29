@@ -9,6 +9,8 @@ import { AddParticipantModal } from './components/AddParticipantModal'
 import { AdminLogin } from './components/AdminLogin'
 import { Participant } from './types/participant'
 
+// Force new deployment - updated at ${new Date().toISOString()}
+
 function App() {
   const { user, loading: authLoading, signIn, signOut, isAdmin } = useAuth()
   const { 
