@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react'
+import { useKeyboardAvoidance } from '../hooks/useKeyboardAvoidance'
 
 interface AdminLoginProps {
   onLogin: (email: string, password: string) => Promise<{ error: any }>
@@ -12,6 +13,8 @@ export function AdminLogin({ onLogin, onGoBack }: AdminLoginProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+
+  const containerRef = useKeyboardAvoidance()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -29,7 +32,7 @@ export function AdminLogin({ onLogin, onGoBack }: AdminLoginProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-8">
+      <div ref={containerRef} className="bg-white rounded-xl shadow-xl w-full max-w-md p-8">
         <button
           onClick={onGoBack}
           className="flex items-center gap-2 text-gray-600 hover:text-gray-800 mb-6 transition-colors"

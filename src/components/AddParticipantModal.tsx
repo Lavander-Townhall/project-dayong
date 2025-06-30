@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { X, Plus, Save } from 'lucide-react'
 import { Participant } from '../types/participant'
+import { useKeyboardAvoidance } from '../hooks/useKeyboardAvoidance'
 
 interface AddParticipantModalProps {
   isOpen: boolean
@@ -20,6 +21,7 @@ export function AddParticipantModal({
   const [number, setNumber] = useState('')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const containerRef = useKeyboardAvoidance()
 
   useEffect(() => {
     if (editingParticipant) {
@@ -68,7 +70,7 @@ export function AddParticipantModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
+      <div ref={containerRef} className="bg-white rounded-xl shadow-xl w-full max-w-md">
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-gray-900">
             {editingParticipant ? 'Edit Participant' : 'Add New Participant'}
